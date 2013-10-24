@@ -8,7 +8,7 @@ manager yet. E.g. if you need the newest git-version.
 ## Supported packages
 
 * [git](http://git-scm.com/)
-* java (atm, only Java7u45, 32Bit)
+* java7 (atm, only Java7u45, 32Bit)
 
 ## Install
 
