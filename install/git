@@ -1,0 +1,80 @@
+#!/bin/bash
+
+################################################################################
+# opm - git installer                                                          #
+#                                                                              #
+# Install git with curl and expat                                              #
+#                                                                              #
+################################################################################
+
+#
+# Thanks to:
+#
+# http://git-scm.com/book/en/Getting-Started-Installing-Git#Installing-on-Linux
+#
+
+DEP="gettext libexpat1-dev libcurl4-openssl-dev libz-dev libssl-dev"
+
+if [ $# -ne 1 ]; then
+	echo "Usage: `basename $0` {VERSION}"
+	exit $E_BADARGS
+else
+	echo "Dependencies: $DEP"
+	apt-get install $DEP
+
+	VERSION="$1"
+	echo "Start install git, Version $VERSION"
+
+	TARGZ="git-$VERSION.tar.gz"
+	TMPTARGZ="/tmp/$TARGZ"
+	TMPFOLDER="/tmp/git-$VERSION"
+
+	OPTFOLDER="/opt/opm/git"
+
+	if [ -d $OPTFOLDER/$VERSION ]
+	then
+		echo "git $VERSION already installed!"
+	else
+		mkdir -p $OPTFOLDER/$VERSION
+
+		echo "Download $TARGZ to $TMP"
+		wget -O $TMPTARGZ http://git-core.googlecode.com/files/$TARGZ
+
+		echo "Untar $TARGZ"
+		tar -C /tmp/ -xzvf $TMPTARGZ
+		cd $TMPFOLDER
+
+		echo "Configure"
+		./configure --prefix=$OPTFOLDER/$VERSION --with-curl --with-expat
+
+		echo "Make"
+		make all
+
+		echo "Install"
+		make install
+
+		echo "Remove files"
+		make clean
+		rm -rf $TMPTARGZ $TMPFOLDER
+	fi
+	
+	INSTALLEDVERSION=`cat $OPTFOLDER/VERSION`
+	if [ "$INSTALLEDVERSION" == "$VERSION" ]
+	then
+		echo "git $VERSION already configured!"
+	else
+		echo "SET VERSION TO $VERSION"
+		BINFOLDER="$OPTFOLDER/$VERSION/bin"
+		FILES=`find $BINFOLDER -type f -printf "%f\n"`
+		echo $FILES > $OPTFOLDER/$VERSION/FILES
+		for f in $FILES
+		do
+			# echo "Link $BINFOLDER/$f"
+			ln -sfn $BINFOLDER/$f /opt/opm/bin/
+		done
+		echo $VERSION > $OPTFOLDER/VERSION
+	fi
+
+	echo "Finished install git, Version $VERSION"
+fi
+

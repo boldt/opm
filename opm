@@ -1,0 +1,51 @@
+#!/bin/bash
+
+################################################################################
+# opm - Opt Package Manager                                                    #
+#                                                                              #
+# ./opm i git 1.8.4.1 - install                                                # 
+# ./opm r git 1.8.4.1 - remove                                                 # 
+# ./opm u git 1.8.4.1 - update                                                 # 
+#                                                                              #
+################################################################################
+
+# @see http://stackoverflow.com/a/630387
+OPM_ROOT="`( cd \"$MY_PATH\" && pwd )`"
+
+if [[ $EUID -ne 0 ]]
+then
+	echo "You must be a root user" 2>&1
+	exit 1
+elif [ $# -ne 3 ]
+then
+	echo "Usage: `basename $0` i/r {PACKAGE} {VERSION}"
+	exit $E_BADARGS
+else
+	mkdir -p /opt/opm/bin/
+	if [ "i" == "$1" ]
+	then
+		echo "INSTALL $2 $3"
+		SCRIPT="$OPM_ROOT/install/$2"
+		if [ -f $SCRIPT ]
+		then
+			$SCRIPT $3
+		else
+			echo "Install for $2 does not exists!"
+		fi
+	elif [ "r" == "$1" ]
+	then
+		echo "REMOVE $2 $3"
+		SCRIPT="$OPM_ROOT/remove/$2"
+		if [ -f $SCRIPT ]
+		then
+			$SCRIPT $3
+		else
+			echo "Remove for $2 does not exists!"
+		fi
+
+	elif [ "u" == "$1" ]
+	then
+		echo "UPDATE $2 $3"
+	fi
+
+fi
