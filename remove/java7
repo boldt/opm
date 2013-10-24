@@ -1,0 +1,43 @@
+#!/bin/bash
+
+################################################################################
+# opm - Java 7 remover                                                         #
+#                                                                              #
+# Remove java7                                                                 #
+#                                                                              #
+################################################################################
+
+if [ $# -ne 1 ]
+then
+	echo "Usage: `basename $0` {VERSION}"
+	exit $E_BADARGS
+else
+	VERSION="$1"	# TODO
+	PLATFORM="i586" # TODO
+	B="b15"			# TODO
+
+	echo "Start remove java7, version $VERSION"
+	
+	SUBFOLDER="java7/$VERSION"
+	OPTFOLDER="/opt/opm/$SUBFOLDER"
+
+	if [ -d $OPTFOLDER ]
+	then
+		rm -rf $OPTFOLDER
+		BINFOLDER="/opt/opm/bin"
+		FILES=`find -L $BINFOLDER `
+		for f in $FILES
+		do
+			LINK=`readlink $f`
+			GREP_OUT=`echo "$LINK" | grep "$OPTFOLDER"`
+			if [ "$GREP_OUT" != "" ]
+			then
+				rm $f;
+			fi
+		done
+		echo "Finished remove java7, version $VERSION"
+	else
+		echo "java7 $VERSION is not installed!"
+	fi
+fi
+

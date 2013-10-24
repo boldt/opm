@@ -1,0 +1,78 @@
+#!/bin/bash
+
+################################################################################
+# opm - Java 7 installer                                                       #
+#                                                                              #
+# Install java7                                                                #
+#                                                                              #
+################################################################################
+
+#
+# Thanks to:
+#
+# https://ivan-site.com/2012/05/download-oracle-java-jre-jdk-using-a-script/
+# https://d.stavrovski.net/blog/installing-oracle-java7-on-debian-wheezy/
+# http://askubuntu.com/questions/170230/download-jdk-1-6-using-wget
+#
+
+if [ $# -ne 1 ]; then
+	echo "Usage: `basename $0` {VERSION}"
+	exit $E_BADARGS
+else
+
+	VERSION="$1"	# TODO
+	PLATFORM="i586" # TODO
+	B="b15"			# TODO
+
+	echo "Start install java7, version $VERSION"
+
+	TARGZ="java7-$VERSION.tar.gz"
+	TMPTARGZ="/tmp/$TARGZ"
+	TMPFOLDER="/tmp/java7-$VERSION"
+
+	OPTFOLDER="/opt/opm/java7"
+	JDKFILE="7u$VERSION-$B/jdk-7u$VERSION-linux-$PLATFORM.tar.gz"
+	URL="http://download.oracle.com/otn-pub/java/jdk/$JDKFILE"
+
+	echo $URL
+	if [ -d $OPTFOLDER/$VERSION ]
+	then
+		echo "java7 $VERSION already installed!"
+	else
+		rm -rf $OPTFOLDER/$VERSION
+		mkdir -p $OPTFOLDER/$VERSION
+		touch $OPTFOLDER/VERSION
+		wget -O $TMPTARGZ --no-cookies --no-check-certificate  --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com" "$URL"
+
+		echo "Untar $TARGZ"
+		tar -C /tmp/ -xzvf $TMPTARGZ
+		ls -latr /tmp/jdk1.7.0_$VERSION/
+
+		echo "Install"
+		mv /tmp/jdk1.7.0_$VERSION/* $OPTFOLDER/$VERSION/
+
+		echo "Remove files"
+		rm -rf $TMPTARGZ $TMPFOLDER
+	fi
+	
+#	INSTALLEDVERSION=`cat $OPTFOLDER/VERSION`
+#	echo $INSTALLEDVERSION
+#	if [ "$INSTALLEDVERSION" == "$VERSION" ]
+#	then
+#		echo "java $VERSION already configured!"
+#	else
+		echo "SET VERSION TO $VERSION"
+		BINFOLDER="$OPTFOLDER/$VERSION/bin"
+		FILES=`find $BINFOLDER -type f -printf "%f\n"`
+		echo $FILES > $OPTFOLDER/$VERSION/FILES
+		for f in $FILES
+		do
+			# echo "Link $BINFOLDER/$f"
+			ln -sfn $BINFOLDER/$f /opt/opm/bin/
+		done
+		echo $VERSION > $OPTFOLDER/VERSION
+#	fi
+
+	echo "Finished install java7, version $VERSION"
+fi
+
