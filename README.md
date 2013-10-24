@@ -33,3 +33,7 @@ between differnet versions.
 ## Tested with
 
 * Ubuntu 12.04.3
+
+## Versioning
+
+We use Semantic [Versioning 2.0.0](http://semver.org/).
