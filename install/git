@@ -23,7 +23,7 @@ else
 	apt-get install $DEP
 
 	VERSION="$1"
-	echo "Start install git, Version $VERSION"
+	echo "Start install git, version $VERSION"
 
 	TARGZ="git-$VERSION.tar.gz"
 	TMPTARGZ="/tmp/$TARGZ"
@@ -75,6 +75,6 @@ else
 		echo $VERSION > $OPTFOLDER/VERSION
 	fi
 
-	echo "Finished install git, Version $VERSION"
+	echo "Finished install git, version $VERSION"
 fi
 
