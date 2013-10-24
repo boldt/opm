@@ -5,7 +5,6 @@
 #                                                                              #
 # ./opm i git 1.8.4.1 - install                                                # 
 # ./opm r git 1.8.4.1 - remove                                                 # 
-# ./opm u git 1.8.4.1 - update                                                 # 
 #                                                                              #
 ################################################################################
 
@@ -42,10 +41,6 @@ else
 		else
 			echo "Remove for $2 does not exists!"
 		fi
-
-	elif [ "u" == "$1" ]
-	then
-		echo "UPDATE $2 $3"
 	fi
 
 fi
