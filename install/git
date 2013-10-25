@@ -76,6 +76,9 @@ else
 		echo $VERSION > $OPTFOLDER/VERSION
 	fi
 
+	echo "Test"
+	/opt/opm/bin/git --version
+
 	echo "Finished install git, version $VERSION"
 fi
 

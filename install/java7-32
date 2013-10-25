@@ -38,12 +38,10 @@ else
 	then
 		echo "java7-32 $VERSION already installed!"
 	else
-		rm -rf $OPTFOLDER/$VERSION
-		mkdir -p $OPTFOLDER/$VERSION
-		touch $OPTFOLDER/VERSION
 
 		URL=`wget -qO- https://raw.github.com/boldt/opm-repository/master/java7-32bit/$VERSION`
 		FILENAME=$(basename "$URL")
+
 		if [ "$URL" == "" ]
 		then
 			echo "This version is not existsing!"
@@ -55,12 +53,16 @@ else
 		TMPFOLDER="/tmp/java7-$VERSION"
 
 		# Download the tar.gz
-		#wget -O $TMPTARGZ --no-cookies --no-check-certificate  --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com" "$URL" # 2>&1
+		wget -O $TMPTARGZ --no-cookies --no-check-certificate  --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com" "$URL" # 2>&1
 		
 		echo "Untar $TMPTARGZ"
 
 		tar -C /tmp/  -xvf $TMPTARGZ
 		ls -latr /tmp/jdk*/
+
+		# TODO: REUSE
+		opm r java7-32 $VERSION
+		mkdir -p $OPTFOLDER/$VERSION
 
 		echo "Install"
 		mv /tmp/jdk1.7.0_$VERSION/* $OPTFOLDER/$VERSION/
@@ -69,6 +71,8 @@ else
 		rm -rf $TMPTARGZ $TMPFOLDER
 	fi
 	
+	touch $OPTFOLDER/VERSION
+
 	# TODO: REUSE
 	INSTALLEDVERSION=`cat $OPTFOLDER/VERSION`
 	if [ "$INSTALLEDVERSION" == "$VERSION" ]
