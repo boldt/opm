@@ -1,0 +1,41 @@
+#!/bin/bash
+
+################################################################################
+# opm - git remover                                                            #
+#                                                                              #
+# Remove git                                                                   #
+#                                                                              #
+################################################################################
+
+if [ $# -ne 1 ]
+then
+	echo "Usage: `basename $0` {VERSION}"
+	exit $E_BADARGS
+else
+	VERSION="$1"
+	echo "Start remove git $VERSION"
+	
+	SUBFOLDER="git/$VERSION"
+	OPTFOLDER="/opt/opm/$SUBFOLDER"
+
+	# TODO: REUSE
+	if [ -d $OPTFOLDER ]
+	then
+		rm -rf $OPTFOLDER
+		BINFOLDER="/opt/opm/bin"
+		FILES=`find -L $BINFOLDER `
+		for f in $FILES
+		do
+			LINK=`readlink $f`
+			GREP_OUT=`echo "$LINK" | grep "$OPTFOLDER"`
+			if [ "$GREP_OUT" != "" ]
+			then
+				rm $f;
+			fi
+		done
+		echo "Finished remove git $VERSION"
+	else
+		echo "git $VERSION is not installed!"
+	fi
+fi
+

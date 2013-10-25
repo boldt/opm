@@ -7,6 +7,8 @@
 #                                                                              #
 ################################################################################
 
+# http://www.oracle.com/technetwork/java/javase/downloads/java-archive-downloads-javase7-521261.html
+
 #
 # Thanks to:
 #
@@ -19,34 +21,41 @@ if [ $# -ne 1 ]; then
 	echo "Usage: `basename $0` {VERSION}"
 	exit $E_BADARGS
 else
+	VERSION="$1"
 
-	VERSION="$1"	# TODO
-	PLATFORM="i586" # TODO
-	B="b15"			# TODO
+	echo "Start install java7-32bit, version $VERSION"
 
-	echo "Start install java7, version $VERSION"
+	OPTFOLDER="/opt/opm/java7-32"
 
-	TARGZ="java7-$VERSION.tar.gz"
-	TMPTARGZ="/tmp/$TARGZ"
-	TMPFOLDER="/tmp/java7-$VERSION"
+	URL=`wget -qO- https://raw.github.com/boldt/opm-repository/master/java7-32bit/$VERSION`
 
-	OPTFOLDER="/opt/opm/java7"
-	JDKFILE="7u$VERSION-$B/jdk-7u$VERSION-linux-$PLATFORM.tar.gz"
-	URL="http://download.oracle.com/otn-pub/java/jdk/$JDKFILE"
-
-	echo $URL
 	if [ -d $OPTFOLDER/$VERSION ]
 	then
-		echo "java7 $VERSION already installed!"
+		echo "java7-32 $VERSION already installed!"
 	else
 		rm -rf $OPTFOLDER/$VERSION
 		mkdir -p $OPTFOLDER/$VERSION
 		touch $OPTFOLDER/VERSION
-		wget -O $TMPTARGZ --no-cookies --no-check-certificate  --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com" "$URL"
 
-		echo "Untar $TARGZ"
-		tar -C /tmp/ -xzvf $TMPTARGZ
-		ls -latr /tmp/jdk1.7.0_$VERSION/
+		URL=`wget -qO- https://raw.github.com/boldt/opm-repository/master/java7-32bit/$VERSION`
+		FILENAME=$(basename "$URL")
+		if [ "$URL" == "" ]
+		then
+			echo "This version is not existsing!"
+			exit
+		fi
+
+		TARGZ="$FILENAME"
+		TMPTARGZ="/tmp/$TARGZ"
+		TMPFOLDER="/tmp/java7-$VERSION"
+
+		# Download the tar.gz
+		#wget -O $TMPTARGZ --no-cookies --no-check-certificate  --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com" "$URL" # 2>&1
+		
+		echo "Untar $TMPTARGZ"
+
+		tar -C /tmp/  -xvf $TMPTARGZ
+		ls -latr /tmp/jdk*/
 
 		echo "Install"
 		mv /tmp/jdk1.7.0_$VERSION/* $OPTFOLDER/$VERSION/
@@ -55,12 +64,12 @@ else
 		rm -rf $TMPTARGZ $TMPFOLDER
 	fi
 	
-#	INSTALLEDVERSION=`cat $OPTFOLDER/VERSION`
-#	echo $INSTALLEDVERSION
-#	if [ "$INSTALLEDVERSION" == "$VERSION" ]
-#	then
-#		echo "java $VERSION already configured!"
-#	else
+	# TODO: REUSE
+	INSTALLEDVERSION=`cat $OPTFOLDER/VERSION`
+	if [ "$INSTALLEDVERSION" == "$VERSION" ]
+	then
+		echo "java $VERSION already configured!"
+	else
 		echo "SET VERSION TO $VERSION"
 		BINFOLDER="$OPTFOLDER/$VERSION/bin"
 		FILES=`find $BINFOLDER -type f -printf "%f\n"`
@@ -71,7 +80,10 @@ else
 			ln -sfn $BINFOLDER/$f /opt/opm/bin/
 		done
 		echo $VERSION > $OPTFOLDER/VERSION
-#	fi
+	fi
+
+	echo "Test"
+	/opt/opm/bin/java -version
 
 	echo "Finished install java7, version $VERSION"
 fi

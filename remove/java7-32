@@ -3,7 +3,7 @@
 ################################################################################
 # opm - Java 7 remover                                                         #
 #                                                                              #
-# Remove java7                                                                 #
+# Remove java7-32bit                                                           #
 #                                                                              #
 ################################################################################
 
@@ -12,15 +12,13 @@ then
 	echo "Usage: `basename $0` {VERSION}"
 	exit $E_BADARGS
 else
-	VERSION="$1"	# TODO
-	PLATFORM="i586" # TODO
-	B="b15"			# TODO
-
-	echo "Start remove java7, version $VERSION"
+	VERSION="$1"
+	echo "Start remove java7, 32bit, version $VERSION"
 	
-	SUBFOLDER="java7/$VERSION"
+	SUBFOLDER="java7-32/$VERSION"
 	OPTFOLDER="/opt/opm/$SUBFOLDER"
 
+	# TODO: REUSE
 	if [ -d $OPTFOLDER ]
 	then
 		rm -rf $OPTFOLDER
@@ -35,9 +33,9 @@ else
 				rm $f;
 			fi
 		done
-		echo "Finished remove java7, version $VERSION"
+		echo "Finished remove java7, 32bit, version $VERSION"
 	else
-		echo "java7 $VERSION is not installed!"
+		echo "java7, 32bit $VERSION is not installed!"
 	fi
 fi
 

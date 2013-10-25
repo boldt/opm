@@ -19,16 +19,48 @@ cd opm
 
 Add `PATH=/opt/opm/bin:$PATH` to your `.bash_aliases`
 
-### Install git
+## Install package
 
 ```
-sudo ./opm i git 1.8.4.1
-sudo ./opm i git 1.8.4
-sudo ./opm i git 1.8.3
+sudo ./opm i {PACKAGE} {VERSION}
 ```
 
 If more than one version is installed, this command can be used to switch 
 between differnet versions.
+
+### git
+
+#### Install
+
+```
+sudo ./opm i git 1.8.4.1
+sudo ./opm i git 1.8.4
+...
+```
+
+#### Remove
+
+```
+sudo ./opm r git 1.8.4.1
+sudo ./opm r git 1.8.4
+...
+```
+
+### Java7 (JDK)
+
+#### Install
+```
+sudo ./opm i java7-32bit 45
+sudo ./opm i java7-32bit 40
+...
+```
+
+#### Remove
+```
+sudo ./opm r java7-32bit 45
+sudo ./opm r java7-32bit 40
+...
+```
 
 ## Tested with
 
