@@ -14,15 +14,15 @@ manager yet. E.g. if you need the newest git-version.
 
 ```
 git clone git@github.com:boldt/opm.git
-cd opm
+mv opm /opt/
 ```
 
 If you don't have git, just [click here](https://github.com/boldt/opm/archive/master.zip) to get a of the OPM zip.
 Afterwards, you can install git easily with OPM. 
 
-## Use packages
+## Use OPM and packages
 
-To be able to use the the packages installed with OPM, please add `PATH=/opt/opm/bin:$PATH` to your `.bash_aliases`.
+To be able to use the OPM and the packages installed with OPM, please add `PATH=/opt/opm/bin:$PATH` to your `.bash_aliases`.
 
 ## Install package
 
