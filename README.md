@@ -31,9 +31,11 @@ sudo ./opm i {PACKAGE} {VERSION}
 ```
 
 If more than one version is installed, this command can be used to switch 
-between differnet versions.
+between different versions.
 
 ### git
+
+Git will be installed by compiling the sources.
 
 #### Install
 
@@ -52,6 +54,8 @@ sudo ./opm r git 1.8.4
 ```
 
 ### Java7 (JDK)
+
+Java7 will be installed by downloading the ready compiled binaries.
 
 #### Install
 ```
