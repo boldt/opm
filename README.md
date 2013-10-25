@@ -1,6 +1,6 @@
 # Opt Package Manager
 
-The **Opt Package Manager** is a simple package manager, which installs 
+The **Opt Package Manager** (OPM) is a simple package manager, which installs 
 differrent programms (often from the sources) to `/opt/`. This is needed, 
 if you want to use packages, which are not supported by your linux package 
 manager yet. E.g. if you need the newest git-version.
@@ -16,6 +16,9 @@ manager yet. E.g. if you need the newest git-version.
 git clone git@github.com:boldt/opm.git
 cd opm
 ```
+
+If you don't have git, just [click here](https://github.com/boldt/opm/archive/master.zip) to get a of the OPM zip.
+Afterwards, you can install git easily with OPM. 
 
 Add `PATH=/opt/opm/bin:$PATH` to your `.bash_aliases`
 
