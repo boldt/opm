@@ -8,7 +8,7 @@ manager yet. E.g. if you need the newest git-version.
 ## Supported packages
 
 * [git](http://git-scm.com/)
-* java7 (atm, only Java7u45, 32Bit)
+* java7 (currently, only Java7, 32Bit)
 
 ## Install
 
@@ -68,4 +68,4 @@ sudo ./opm r java7-32bit 40
 
 ## Versioning
 
-We use Semantic [Versioning 2.0.0](http://semver.org/).
+We use [Semantic Versioning 2.0.0](http://semver.org/).
