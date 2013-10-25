@@ -36,8 +36,6 @@ else
 	then
 		echo "git $VERSION already installed!"
 	else
-		mkdir -p $OPTFOLDER/$VERSION
-
 		echo "Download $TARGZ to $TMP"
 		wget -O $TMPTARGZ http://git-core.googlecode.com/files/$TARGZ
 
@@ -50,6 +48,8 @@ else
 
 		echo "Make"
 		make all
+
+		mkdir -p $OPTFOLDER/$VERSION
 
 		echo "Install"
 		make install
