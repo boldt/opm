@@ -8,8 +8,7 @@
 #                                                                              #
 ################################################################################
 
-# @see http://stackoverflow.com/a/630387
-OPM_ROOT="`( cd \"$MY_PATH\" && pwd )`"
+OPM_ROOT="/opt/opm"
 
 if [[ $EUID -ne 0 ]]
 then
@@ -25,6 +24,7 @@ else
 	then
 		echo "INSTALL $2 $3"
 		SCRIPT="$OPM_ROOT/install/$2"
+		echo $SCRIPT
 		if [ -f $SCRIPT ]
 		then
 			$SCRIPT $3
