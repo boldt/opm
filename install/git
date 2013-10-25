@@ -19,10 +19,11 @@ if [ $# -ne 1 ]; then
 	echo "Usage: `basename $0` {VERSION}"
 	exit $E_BADARGS
 else
+	VERSION="$1"
+
 	echo "Dependencies: $DEP"
 	apt-get install $DEP
 
-	VERSION="$1"
 	echo "Start install git, version $VERSION"
 
 	TARGZ="git-$VERSION.tar.gz"

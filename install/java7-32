@@ -17,11 +17,16 @@
 # http://askubuntu.com/questions/170230/download-jdk-1-6-using-wget
 #
 
+DEP="ia32-libs"
+
 if [ $# -ne 1 ]; then
 	echo "Usage: `basename $0` {VERSION}"
 	exit $E_BADARGS
 else
 	VERSION="$1"
+
+	echo "Dependencies: $DEP"
+	apt-get install $DEP
 
 	echo "Start install java7-32bit, version $VERSION"
 
