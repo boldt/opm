@@ -20,7 +20,9 @@ cd opm
 If you don't have git, just [click here](https://github.com/boldt/opm/archive/master.zip) to get a of the OPM zip.
 Afterwards, you can install git easily with OPM. 
 
-Add `PATH=/opt/opm/bin:$PATH` to your `.bash_aliases`
+## Use packages
+
+To be able to use the the packages installed with OPM, please add `PATH=/opt/opm/bin:$PATH` to your `.bash_aliases`.
 
 ## Install package
 
