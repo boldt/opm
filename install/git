@@ -39,6 +39,9 @@ else
 		echo "Download $TARGZ to $TMP"
 		wget -O $TMPTARGZ http://git-core.googlecode.com/files/$TARGZ
 
+		# TODO:
+		# CHECK, if file exists after download!
+
 		echo "Untar $TARGZ"
 		tar -C /tmp/ -xzvf $TMPTARGZ
 		cd $TMPFOLDER

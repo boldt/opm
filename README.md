@@ -15,6 +15,7 @@ manager yet. E.g. if you need the newest git-version.
 ```
 git clone git@github.com:boldt/opm.git
 mv opm /opt/
+mkdir /opt/opm/bin
 sudo ln -s /opt/opm/opm /opt/opm/bin/opm
 ```
 
@@ -24,7 +25,7 @@ to get a of the OPM zip. Afterwards, you can install git easily with OPM.
 ## Use OPM and packages
 
 To be able to use the OPM and the packages installed with OPM, please add 
-`PATH=/opt/opm/bin:$PATH` to the `.bash_aliases` of your root (sudo) user.
+`PATH=/opt/opm/bin:$PATH` to the `.bash_aliases` or `.bashrc` of your root (sudo) user.
 
 ## Install package
 
@@ -63,21 +64,22 @@ Java7 will be installed by downloading the ready compiled binaries.
 
 #### Install
 ```
-opm i java7-32bit 45
-opm i java7-32bit 40
+opm i java7-32 45
+opm i java7-32 40
 ...
 ```
 
 #### Remove
 ```
-opm r java7-32bit 45
-opm r java7-32bit 40
+opm r java7-32 45
+opm r java7-32 40
 ...
 ```
 
 ## Tested with
 
-* Ubuntu 12.04.3
+* Ubuntu 12.04
+* Debian 6.0
 
 ## Versioning
 
