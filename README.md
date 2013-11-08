@@ -25,7 +25,7 @@ to get a of the OPM zip. Afterwards, you can install git easily with OPM.
 ## Use OPM and packages
 
 To be able to use the OPM and the packages installed with OPM, please add 
-`PATH=/opt/opm/bin:$PATH` to the `.bash_aliases` or `.bashrc` of your root (sudo) user.
+`PATH=/opt/opm/bin:$PATH` to the `/etc/profile`.
 
 ## Install package
 
@@ -45,6 +45,7 @@ Git will be installed by compiling the sources.
 #### Install
 
 ```
+opm i git 1.8.4.2
 opm i git 1.8.4.1
 opm i git 1.8.4
 ...
