@@ -8,7 +8,7 @@ manager yet. E.g. if you need the newest git-version.
 ## Supported packages
 
 * [git](http://git-scm.com/)
-* java7 (currently, only Java7, 32Bit)
+* jdk7 (currently, only jdk7, 32Bit)
 
 ## Install
 
@@ -20,7 +20,7 @@ sudo ln -s /opt/opm/opm /opt/opm/bin/opm
 ```
 
 If you don't have git, just [click here](https://github.com/boldt/opm/archive/master.zip) 
-to get a of the OPM zip. Afterwards, you can install git easily with OPM. 
+to get zip. Afterwards, you can install git easily with OPM. 
 
 ## Use OPM and packages
 
@@ -59,21 +59,43 @@ opm r git 1.8.4
 ...
 ```
 
-### Java7 (JDK)
+### JDK 7
 
-Java7 will be installed by downloading the ready compiled binaries.
+JDK 7 will be installed by downloading the ready compiled binaries from Oracle.
 
 #### Install
+
+32 bit:
+
 ```
-opm i java7-32 45
-opm i java7-32 40
+opm i jdk7-32 45
+opm i jdk7-32 40
+...
+```
+
+64 bit:
+
+```
+opm i jdk7-64 45
+opm i jdk7-64 40
 ...
 ```
 
 #### Remove
+
+32 bit:
+
 ```
-opm r java7-32 45
-opm r java7-32 40
+opm r jdk7-32 45
+opm r jdk7-32 40
+...
+```
+
+64 bit:
+
+```
+opm r jdk7-64 45
+opm r jdk7-64 40
 ...
 ```
 

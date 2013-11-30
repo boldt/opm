@@ -1,0 +1,79 @@
+#!/bin/bash
+
+################################################################################
+# jdownloader
+################################################################################
+
+NAME="jdownloader"
+FOLDER="jdownloader"
+
+if [ $# -ne 1 ]; then
+	echo "Usage: `basename $0` {VERSION}"
+	exit $E_BADARGS
+else
+
+	VERSION="$1"
+	echo "Start install $NAME, version $VERSION"
+
+	OPTFOLDER="/opt/opm/$NAME"
+
+	F="JDownloader.zip"
+
+	if [ -d $OPTFOLDER/$VERSION ]
+	then
+		echo "$NAME $VERSION already installed!"
+	else
+
+		URL="http://94.23.204.158/$F"
+		FILENAME=$(basename "$URL")
+
+		if [ "$URL" == "" ]
+		then
+			echo "This version is not existsing!"
+			exit
+		fi
+
+		ZIP="$FILENAME"
+		TMPZIP="/tmp/$ZIP"
+
+		# Download the tar.gz
+		wget -O $TMPZIP "$URL" # 2>&1
+
+		# TODO: REUSE
+		# /opt/opm/bin/opm r $NAME $VERSION
+
+		echo "Install"
+		mkdir -p $OPTFOLDER/$VERSION
+		unzip /tmp/$FILENAME -d $OPTFOLDER/$VERSION/
+
+		echo '#!/bin/bash' > $OPTFOLDER/$VERSION/$NAME
+		echo "" >> $OPTFOLDER/$VERSION/$NAME
+		echo "java -Xmx512m -jar $OPTFOLDER/$VERSION/JDownloader/JDownloader.jar" >> $OPTFOLDER/$VERSION/$NAME
+		chmod 755 $OPTFOLDER/$VERSION/$NAME
+
+		# set access rights
+		chmod 777 -R $OPTFOLDER/$VERSION
+		chown -R root:users $OPTFOLDER/$VERSION
+
+		echo "Remove files"
+		rm -rf $TMPZIP
+	fi
+	
+	touch $OPTFOLDER/VERSION
+
+	# TODO: REUSE
+	INSTALLEDVERSION=`cat $OPTFOLDER/VERSION`
+	if [ "$INSTALLEDVERSION" == "$VERSION" ]
+	then
+		echo "$NAME $VERSION already configured!"
+	else
+		echo "SET VERSION TO $VERSION"
+		ln -sfn $OPTFOLDER/$VERSION/$NAME /opt/opm/bin/
+	fi
+
+	echo "Test"
+	ls $OPTFOLDER/$VERSION/$NAME
+
+	echo "Finished install $NAME, version $VERSION"
+fi
+

@@ -1,0 +1,19 @@
+#!/bin/bash
+
+################################################################################
+# jdownloader remover                                                            #
+################################################################################
+
+export NAME="jdownloader"
+export FOLDER="jdownloader"
+
+if [ $# -ne 1 ]
+then
+	echo "Usage: `basename $0` {VERSION}"
+	exit $E_BADARGS
+else
+	/opt/opm/remove/helper
+fi
+
+
+

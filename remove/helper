@@ -1,0 +1,31 @@
+#!/bin/bash
+
+echo $NAME
+echo $FOLDER
+
+VERSION="$1"
+echo "Start remove $NAME $VERSION"
+
+SUBFOLDER="$FOLDER/$VERSION"
+OPTFOLDER="/opt/opm/$SUBFOLDER"
+
+# TODO: REUSE
+if [ -d $OPTFOLDER ]
+then
+	rm -rf $OPTFOLDER
+	BINFOLDER="/opt/opm/bin"
+	FILES=`find -L $BINFOLDER `
+	for f in $FILES
+	do
+		LINK=`readlink $f`
+		GREP_OUT=`echo "$LINK" | grep "$OPTFOLDER"`
+		if [ "$GREP_OUT" != "" ]
+		then
+			rm $f;
+		fi
+	done
+	echo "Finished remove $NAME $VERSION"
+else
+	echo "$NAME $VERSION is not installed!"
+fi
+

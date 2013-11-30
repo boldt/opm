@@ -1,0 +1,44 @@
+#!/bin/bash
+
+################################################################################
+# opm - JDK 7 remover
+#
+# Remove jdk7-64
+#
+################################################################################
+
+if [ $# -ne 1 ]
+then
+	echo "Usage: `basename $0` {VERSION}"
+	exit $E_BADARGS
+else
+	VERSION="$1"
+	NAME="JDK 7, 64bit, version $VERSION"
+	F="jdk7-64"
+
+	echo "Start remove $NAME"
+	
+	SUBFOLDER="$F/$VERSION"
+	OPTFOLDER="/opt/opm/$SUBFOLDER"
+
+	# TODO: REUSE
+	if [ -d $OPTFOLDER ]
+	then
+		rm -rf $OPTFOLDER
+		BINFOLDER="/opt/opm/bin"
+		FILES=`find -L $BINFOLDER `
+		for f in $FILES
+		do
+			LINK=`readlink $f`
+			GREP_OUT=`echo "$LINK" | grep "$OPTFOLDER"`
+			if [ "$GREP_OUT" != "" ]
+			then
+				rm $f;
+			fi
+		done
+		echo "Finished remove $NAME"
+	else
+		echo "j$NAME is not installed!"
+	fi
+fi
+

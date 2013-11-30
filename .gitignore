@@ -1,3 +1,9 @@
 bin/
+*~
+
+# Applications
 git/
-java7-32/
+jdk7-32/
+jdk7-64/
+jdownloader/
+

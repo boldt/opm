@@ -17,7 +17,7 @@
 # http://askubuntu.com/questions/170230/download-jdk-1-6-using-wget
 #
 
-DEP="ia32-libs"
+# DEP="ia32-libs"
 
 if [ $# -ne 1 ]; then
 	echo "Usage: `basename $0` {VERSION}"
@@ -25,21 +25,20 @@ if [ $# -ne 1 ]; then
 else
 	VERSION="$1"
 
-	echo "Dependencies: $DEP"
-	apt-get install $DEP
+#	echo "Dependencies: $DEP"
+#	apt-get install $DEP
 
-	echo "Start install java7-32bit, version $VERSION"
+	echo "Start install jdk7-64bit, version $VERSION"
 
-	OPTFOLDER="/opt/opm/java7-32"
-
-	URL=`wget -qO- https://raw.github.com/boldt/opm-repository/master/java7-32bit/$VERSION`
+	OPTFOLDER="/opt/opm/jdk7-64"
 
 	if [ -d $OPTFOLDER/$VERSION ]
 	then
-		echo "java7-32 $VERSION already installed!"
+		echo "jdk7-64 $VERSION already installed!"
 	else
 
-		URL=`wget -qO- https://raw.github.com/boldt/opm-repository/master/java7-32bit/$VERSION`
+		#URL=`wget -qO- https://raw.github.com/boldt/opm-repository/master/java7-64bit/$VERSION`
+		URL="http://download.oracle.com/otn-pub/java/jdk/7u45-b18/jdk-7u45-linux-x64.tar.gz"
 		FILENAME=$(basename "$URL")
 
 		if [ "$URL" == "" ]
@@ -50,7 +49,7 @@ else
 
 		TARGZ="$FILENAME"
 		TMPTARGZ="/tmp/$TARGZ"
-		TMPFOLDER="/tmp/java7-$VERSION"
+		TMPFOLDER="/tmp/jdk7-$VERSION"
 
 		# Download the tar.gz
 		wget -O $TMPTARGZ --no-cookies --no-check-certificate  --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com" "$URL" # 2>&1
@@ -59,14 +58,14 @@ else
 		# CHECK, if file exists after download!		
 		echo "Untar $TMPTARGZ"
 
-		tar -C /tmp/  -xvf $TMPTARGZ
+		tar -C /tmp/ -xvf $TMPTARGZ
 		ls -latr /tmp/jdk*/
 
 		# TODO: REUSE
-		opm r java7-32 $VERSION
-		mkdir -p $OPTFOLDER/$VERSION
+		/opt/opm/bin/opm r jdk7-64 $VERSION
 
 		echo "Install"
+		mkdir -p $OPTFOLDER/$VERSION
 		mv /tmp/jdk1.7.0_$VERSION/* $OPTFOLDER/$VERSION/
 
 		echo "Remove files"
@@ -79,7 +78,7 @@ else
 	INSTALLEDVERSION=`cat $OPTFOLDER/VERSION`
 	if [ "$INSTALLEDVERSION" == "$VERSION" ]
 	then
-		echo "java $VERSION already configured!"
+		echo "jdk7-64 $VERSION already configured!"
 	else
 		echo "SET VERSION TO $VERSION"
 		BINFOLDER="$OPTFOLDER/$VERSION/bin"
@@ -96,6 +95,6 @@ else
 	echo "Test"
 	/opt/opm/bin/java -version
 
-	echo "Finished install java7, version $VERSION"
+	echo "Finished install jdk7, version $VERSION"
 fi
 

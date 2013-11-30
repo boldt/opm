@@ -1,0 +1,99 @@
+#!/bin/bash
+
+################################################################################
+# opm - Java 7 installer                                                       #
+#                                                                              #
+# Install java7                                                                #
+#                                                                              #
+################################################################################
+
+# http://www.oracle.com/technetwork/java/javase/downloads/java-archive-downloads-javase7-521261.html
+
+#
+# Thanks to:
+#
+# https://ivan-site.com/2012/05/download-oracle-java-jre-jdk-using-a-script/
+# https://d.stavrovski.net/blog/installing-oracle-java7-on-debian-wheezy/
+# http://askubuntu.com/questions/170230/download-jdk-1-6-using-wget
+#
+
+DEP="ia32-libs"
+
+if [ $# -ne 1 ]; then
+	echo "Usage: `basename $0` {VERSION}"
+	exit $E_BADARGS
+else
+	VERSION="$1"
+
+	echo "Dependencies: $DEP"
+	apt-get install $DEP
+
+	echo "Start install java7-32bit, version $VERSION"
+
+	OPTFOLDER="/opt/opm/java7-32"
+
+	if [ -d $OPTFOLDER/$VERSION ]
+	then
+		echo "java7-32 $VERSION already installed!"
+	else
+
+		URL=`wget -qO- https://raw.github.com/boldt/opm-repository/master/java7-32bit/$VERSION`
+		FILENAME=$(basename "$URL")
+
+		if [ "$URL" == "" ]
+		then
+			echo "This version is not existsing!"
+			exit
+		fi
+
+		TARGZ="$FILENAME"
+		TMPTARGZ="/tmp/$TARGZ"
+		TMPFOLDER="/tmp/java7-$VERSION"
+
+		# Download the tar.gz
+		wget -O $TMPTARGZ --no-cookies --no-check-certificate  --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com" "$URL" # 2>&1
+
+		# TODO:
+		# CHECK, if file exists after download!		
+		echo "Untar $TMPTARGZ"
+
+		tar -C /tmp/  -xvf $TMPTARGZ
+		ls -latr /tmp/jdk*/
+
+		# TODO: REUSE
+		opm r java7-32 $VERSION
+		mkdir -p $OPTFOLDER/$VERSION
+
+		echo "Install"
+		mv /tmp/jdk1.7.0_$VERSION/* $OPTFOLDER/$VERSION/
+
+		echo "Remove files"
+		rm -rf $TMPTARGZ $TMPFOLDER
+	fi
+	
+	touch $OPTFOLDER/VERSION
+
+	# TODO: REUSE
+	INSTALLEDVERSION=`cat $OPTFOLDER/VERSION`
+	if [ "$INSTALLEDVERSION" == "$VERSION" ]
+	then
+		echo "java $VERSION already configured!"
+	else
+		echo "SET VERSION TO $VERSION"
+		BINFOLDER="$OPTFOLDER/$VERSION/bin"
+		FILES=`find $BINFOLDER -type f -printf "%f\n"`
+		echo $FILES > $OPTFOLDER/$VERSION/FILES
+		for f in $FILES
+		do
+			# echo "Link $BINFOLDER/$f"
+			ln -sfn $BINFOLDER/$f /opt/opm/bin/
+		done
+		echo $VERSION > $OPTFOLDER/VERSION
+	fi
+
+	echo "Test"
+	/opt/opm/bin/java -version
+
+	echo "Finished install java7, version $VERSION"
+fi
+
